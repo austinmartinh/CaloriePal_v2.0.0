@@ -2,7 +2,7 @@ package ie.wit.caloriepal.models
 
 import android.os.Parcelable
 // The main model, meal. This will record the name and caloric content of a given meal as wel as the location at which it was eaten.
-data class Meal(
+data class MealModel(
     var id: Long =0,
     var title : String = "",
     var mealType : String = "",
