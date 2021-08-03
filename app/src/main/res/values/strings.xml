@@ -4,4 +4,5 @@
     <string name="add_meal_text">Add meal</string>
     <string name="caloric_content_hint">0</string>
     <string name="cancel_button">Cancel</string>
+    <string name="add_meal">Add Meal</string>
 </resources>
