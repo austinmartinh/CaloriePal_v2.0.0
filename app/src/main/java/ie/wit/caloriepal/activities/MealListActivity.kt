@@ -47,7 +47,7 @@ class MealListActivity() : AppCompatActivity(), MealListener {
     }
 
     fun loadMeals(){
-        showMeals(app.meals)
+        showMeals(app.meals.findAll())
     }
 
     fun showMeals(meals:List<MealModel>) {

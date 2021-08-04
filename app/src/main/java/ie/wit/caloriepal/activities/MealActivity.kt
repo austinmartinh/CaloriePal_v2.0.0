@@ -15,6 +15,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger{
 
     lateinit var app : MainApp
     var meal = MealModel()
+    var edit = false
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +30,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger{
             meal.title = mealNameField.text.toString()
             meal.caloricContent =  Integer.parseInt(caloricContentField.text.toString())
             if(mealNameField.text.isNotBlank()){
-                app.meals.add(meal.copy())
+                app.meals.createOrUpdate(meal.copy(), edit)
                 closeActivityOK()
             } else {
                 toast("Please enter the meal details!")
