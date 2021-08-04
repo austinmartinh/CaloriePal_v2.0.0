@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.wit.caloriepal.R
+import ie.wit.caloriepal.adapters.MealAdapter
 import ie.wit.caloriepal.adapters.MealListener
 import ie.wit.caloriepal.main.MainApp
 import ie.wit.caloriepal.models.MealModel
@@ -26,6 +27,7 @@ class MealListActivity() : AppCompatActivity(), MealListener {
 
         val layoutManager = LinearLayoutManager(this)
         mealRecyclerView.layoutManager = layoutManager
+        loadMeals()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -42,6 +44,15 @@ class MealListActivity() : AppCompatActivity(), MealListener {
 
     override fun onMealClick(meal: MealModel) {
        //TODO
+    }
+
+    fun loadMeals(){
+        showMeals(app.meals)
+    }
+
+    fun showMeals(meals:List<MealModel>) {
+        mealRecyclerView.adapter = MealAdapter(meals, this)
+        mealRecyclerView.adapter?.notifyDataSetChanged()
     }
 
 

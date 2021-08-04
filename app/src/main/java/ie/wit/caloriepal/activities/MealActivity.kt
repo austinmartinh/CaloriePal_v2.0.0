@@ -1,6 +1,5 @@
 package ie.wit.caloriepal.activities
 
-import android.app.Application
 import android.os.Bundle
 import android.view.Menu
 import kotlinx.android.synthetic.main.activity_meal.*
@@ -16,7 +15,6 @@ class MealActivity : AppCompatActivity(), AnkoLogger{
 
     lateinit var app : MainApp
     var meal = MealModel()
-    var meals = mutableListOf<MealModel>()
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +29,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger{
             meal.title = mealNameField.text.toString()
             meal.caloricContent =  Integer.parseInt(caloricContentField.text.toString())
             if(mealNameField.text.isNotBlank()){
-                meals.add(meal.copy())
+                app.meals.add(meal.copy())
                 closeActivityOK()
             } else {
                 toast("Please enter the meal details!")
