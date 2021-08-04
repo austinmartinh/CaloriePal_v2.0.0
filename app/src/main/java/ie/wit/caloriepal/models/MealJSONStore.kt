@@ -1,19 +1,17 @@
 package ie.wit.caloriepal.models
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.io.*
-import java.lang.Exception
+import ie.wit.caloriepal.helpers.*
 import kotlin.random.Random
 
 val JSON_MEAL_FILE = "meals.json"
 val gsonBuilder = GsonBuilder().setPrettyPrinting().create()
 val listType = object : TypeToken<ArrayList<MealModel>>() {}.type
 
-class MealJSONStore(val context: Context) : MealStore {
+class MealJSONStore(val context: Context) : Store {
 
     var meals = mutableListOf<MealModel>()
 
@@ -67,56 +65,9 @@ class MealJSONStore(val context: Context) : MealStore {
     }
 }
 
-
-interface MealStore {
-    fun create(meal: MealModel)
-    fun update(meal: MealModel)
-    fun delete(meal: MealModel)
-    fun findAll(): List<MealModel>
-}
-
 fun generateRandomId(): Long {
     return Random.nextLong()
 }
 
-fun read(context:Context, fileName:String) : String {
-    var str =""
-    try{
-        val inputStream = context.openFileInput(fileName)
-        if(inputStream != null){
-            val inputStreamReader = InputStreamReader(inputStream)
-            val bufferedReader = BufferedReader(inputStreamReader)
-            val partialStr = StringBuilder()
-            var done = false
-            while(!done){
-                val line = bufferedReader.readLine()
-                done = (line == null )
-                if(line!=null) partialStr.append(line)
-            }
-            inputStream.close()
-            str =partialStr.toString()
-        }
-    } catch (e:FileNotFoundException){
-        Log.e("Error: ", "file not found $e")
-    } catch (e:IOException){
-        Log.e("Error: ", "could not read file $e")
-    }
-    return str
-}
 
-fun write(context: Context, fileName: String, data:String){
-    try {
-        val outPutStreamWriter =
-            OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE))
-        outPutStreamWriter.write(data)
-        outPutStreamWriter.close()
-    } catch (e: Exception) {
-        Log.e("Error: ", "Cannot read file: $e")
-    }
-}
-
-fun exists(context: Context, fileName: String) : Boolean {
-    val file = context.getFileStreamPath(fileName)
-    return file.exists()
-}
 
