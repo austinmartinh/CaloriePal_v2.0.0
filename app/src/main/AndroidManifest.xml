@@ -11,14 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CaloriePal">
         <activity android:name=".activities.MealActivity">
-
         </activity>
-        <activity android:name=".activities.MealListActivity">
+        <activity android:name=".activities.UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activities.MealListActivity">
+
         </activity>
     </application>
 

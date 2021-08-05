@@ -5,4 +5,8 @@
     <string name="caloric_content_hint">0</string>
     <string name="cancel_button">Cancel</string>
     <string name="add_meal">Add Meal</string>
+    <string name="kilogram">Kg</string>
+    <string name="set_user_details">Set User Details</string>
+    <string name="weight_hint">Weight (Kg)</string>
+    <string name="goal_date">Goal Date</string>
 </resources>
