@@ -13,14 +13,14 @@
         <activity android:name=".activities.MealActivity">
         </activity>
         <activity android:name=".activities.UserActivity">
+
+        </activity>
+        <activity android:name=".activities.MealListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".activities.MealListActivity">
-
         </activity>
     </application>
 

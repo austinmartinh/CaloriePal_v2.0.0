@@ -18,7 +18,6 @@ import java.time.LocalDate
 
 class UserActivity : AppCompatActivity(), AnkoLogger {
     lateinit var app: MainApp
-    var user = UserModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +27,8 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
 
         toolbarAddUser.title = title
         setSupportActionBar(toolbarAddUser)
+
+        Toast.makeText(this, "New User Detected, please enter your details", Toast.LENGTH_LONG).show()
 
         buttonAddUser.setOnClickListener {
             validateUserDetails()
@@ -71,12 +72,13 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
             Toast.makeText(this, "Your goal date should be in the future", Toast.LENGTH_SHORT).show()
             return
         }
-        user.name = userNameField.text.toString()
-        user.startWeight = startingWeight
-        user.goalWeight = goalWeight
-        user.deadline = deadline
-        user.deficit = calculateDeficit(user)
-        info { "User details are: $user" }
+        app.user.name = userNameField.text.toString()
+        app.user.startWeight = startingWeight
+        app.user.goalWeight = goalWeight
+        app.user.deadline = deadline
+        app.user.deficit = calculateDeficit(app.user)
+        info { "User details are: $app.user" }
+        closeActivityOK()
     }
 }
 

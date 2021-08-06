@@ -8,6 +8,7 @@ import org.jetbrains.anko.info
 
 class MainApp : Application(), AnkoLogger {
     lateinit var meals : MealJSONStore
+    var user = UserModel()
 
     override fun onCreate() {
         super.onCreate()

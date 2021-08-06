@@ -14,3 +14,4 @@ fun calculateDeficit(user: UserModel) : Int {
 fun calculateDaysUntilDeadline(deadline:LocalDate) : Int {
         return (ChronoUnit.DAYS.between(LocalDate.now(), deadline)).toInt()
 }
+
