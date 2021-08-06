@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit
 const val CALORIES_PER_KG = 7000
 
 fun calculateDeficit(user: UserModel) : Int {
-    val totalDeficit = (user.weight - user.goal).toInt()  * CALORIES_PER_KG
+    val totalDeficit = (user.startWeight - user.goalWeight).toInt()  * CALORIES_PER_KG
     return totalDeficit / calculateDaysUntilDeadline(user.deadline)
 }
 

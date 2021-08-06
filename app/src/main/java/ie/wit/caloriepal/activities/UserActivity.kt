@@ -1,9 +1,9 @@
 package ie.wit.caloriepal.activities
 
 import android.os.Bundle
-import android.util.Log.i
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ie.wit.caloriepal.R
 import ie.wit.caloriepal.helpers.calculateDaysUntilDeadline
@@ -13,49 +13,70 @@ import ie.wit.caloriepal.models.UserModel
 import kotlinx.android.synthetic.main.activity_user.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.toast
 import java.time.LocalDate
 
-class UserActivity: AppCompatActivity(), AnkoLogger {
-    lateinit var app : MainApp
+class UserActivity : AppCompatActivity(), AnkoLogger {
+    lateinit var app: MainApp
     var user = UserModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        info {"User goal Activity started"}
+        info { "User goal Activity started" }
         setContentView(R.layout.activity_user)
         app = application as MainApp
 
-        toolbarAddUser.title =title
+        toolbarAddUser.title = title
         setSupportActionBar(toolbarAddUser)
 
-        buttonAddUser.setOnClickListener{
-            user.name = userNameField.text.toString()
-            user.weight = startingWeightField.text.toString().toFloat()
-            user.goal = goalWeightField.text.toString().toFloat()
-            user.deadline= LocalDate.of(goalDatePicker.year, goalDatePicker.month +1 ,goalDatePicker.dayOfMonth)
-            user.deficit = calculateDeficit(user)
-        info{ "User details are: $user"}
-            info{}
-            info{"Todays date: ${LocalDate.now()}, Deadline: ${user.deadline}, days until deadline: ${calculateDaysUntilDeadline(user.deadline)}"}
+        buttonAddUser.setOnClickListener {
+            validateUserDetails()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?) : Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.add_in_progress_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.cancel_activity_button -> closeActivityOK()
         }
         return super.onOptionsItemSelected(item)
     }
 
-
-    private fun closeActivityOK(){
+    private fun closeActivityOK() {
         setResult(RESULT_OK)
         finish()
     }
 
+    private fun validateUserDetails() {
+        var startingWeight = startingWeightField.text.toString().toFloatOrNull()
+        var goalWeight = goalWeightField.text.toString().toFloatOrNull()
+        var deadline = LocalDate.of(goalDatePicker.year,goalDatePicker.month + 1, goalDatePicker.dayOfMonth)
+
+        if (startingWeight ==null) startingWeight = 0f
+        if(goalWeight== null) goalWeight = 0f
+
+        if (startingWeight <= 0 || goalWeight <= 0) {
+            Toast.makeText(this, "Starting and goal weight must be above zero", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (startingWeight <= goalWeight) {
+            Toast.makeText(this, "Your goal weight should be below your current weight", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (calculateDaysUntilDeadline(deadline) <= 0) {
+            Toast.makeText(this, "Your goal date should be in the future", Toast.LENGTH_SHORT).show()
+            return
+        }
+        user.name = userNameField.text.toString()
+        user.startWeight = startingWeight
+        user.goalWeight = goalWeight
+        user.deadline = deadline
+        user.deficit = calculateDeficit(user)
+        info { "User details are: $user" }
+    }
 }
+

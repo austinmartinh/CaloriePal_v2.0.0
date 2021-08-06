@@ -9,4 +9,9 @@
     <string name="set_user_details">Set User Details</string>
     <string name="weight_hint">Weight (Kg)</string>
     <string name="goal_date">Goal Date</string>
+    <string name="zero">0</string>
+    <string name="starting_weight">Starting Weight</string>
+    <string name="goal_weight">Goal Weight</string>
+    <string name="starting_weight_kg">Starting Weight (Kg)</string>
+    <string name="goal_weight_kg">Goal Weight (Kg)</string>
 </resources>
