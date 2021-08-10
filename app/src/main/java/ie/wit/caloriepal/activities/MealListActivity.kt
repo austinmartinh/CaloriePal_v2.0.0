@@ -1,5 +1,7 @@
 package ie.wit.caloriepal.activities
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -18,7 +20,7 @@ import org.jetbrains.anko.startActivityForResult
 
 class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
 
-    lateinit var app:MainApp
+    lateinit var app: MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +28,7 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         app = application as MainApp
 
         checkForNewUser()
-        info{"User Details after new user check: ${app.userStore.user}"}
+        info { "User Details after new user check: ${app.userStore.user}" }
 
         mealListToolbar.title = title
         setSupportActionBar(mealListToolbar)
@@ -34,6 +36,16 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         val layoutManager = LinearLayoutManager(this)
         mealRecyclerView.layoutManager = layoutManager
         loadMeals()
+        setTotalCalories(app.mealStore.findAll())
+        setCaloricAllowance()
+        setCaloricTotalColours()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setTotalCalories(app.mealStore.findAll())
+        setCaloricAllowance()
+        setCaloricTotalColours()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -42,33 +54,56 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.meal_add -> startActivityForResult<MealActivity>(0)
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onMealClick(meal: MealModel) {
-       //TODO Bring up details of meal, option to delete/update
+        //TODO Bring up details of meal, option to delete/update
     }
 
-    fun loadMeals(){
+    fun loadMeals() {
         showMeals(app.mealStore.findAll())
     }
 
-    fun showMeals(meals:List<MealModel>) {
+    fun showMeals(meals: List<MealModel>) {
         mealRecyclerView.adapter = MealAdapter(meals, this)
         mealRecyclerView.adapter?.notifyDataSetChanged()
     }
 
-    fun checkForNewUser(){
+    fun checkForNewUser() {
         //if(app.userStore.users.size == 0 ){
-        if(app.userStore.user == UserModel()){
+        if (app.userStore.user == UserModel()) {
             startActivityForResult<UserActivity>(0)
-        }
-        else {
+        } else {
             //TODO present user with list of users to choose from
         }
     }
 
+    fun setCaloricAllowance() {
+        val caloricAllowance = (2100 + app.userStore.user.deficit)
+        dailyCalorieGoal.text = caloricAllowance.toString()
+    }
+
+    fun setTotalCalories(meals: List<MealModel>) {
+        var totalCalories = 0
+        for (meal in meals) {
+            totalCalories += meal.caloricContent
+        }
+        dailyCalorieTotal.text = totalCalories.toString()
+    }
+
+    fun setCaloricTotalColours() {
+        if (dailyCalorieTotal.text.toString().toInt() < dailyCalorieGoal.text.toString().toInt()) {
+            dailyCalorieTotal.setTextColor(Color.GREEN)
+            dailyCalorieGoal.setTextColor(Color.GREEN)
+
+        } else {
+            dailyCalorieTotal.setTextColor(Color.RED)
+            dailyCalorieGoal.setTextColor(Color.RED)
+
+        }
+    }
 }

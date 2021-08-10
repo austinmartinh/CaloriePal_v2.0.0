@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:weightSum="2" >
         <TextView
-            android:id="@+id/dailyTotalCalories"
+            android:id="@+id/dailyCalorieTotal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/zero"
@@ -76,7 +76,7 @@
             android:textAlignment="center"/>
 
         <TextView
-            android:id="@+id/dailyCaloricGoal"
+            android:id="@+id/dailyCalorieGoal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/zero"
