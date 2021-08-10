@@ -24,5 +24,68 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:layout_marginBottom="80sp"/>
+
+    <LinearLayout
+    android:id="@+id/caloricGoalHeaders"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="bottom">
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+            <TextView
+                android:id="@+id/caloriesTodayLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/calories_today"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:textAlignment="center"
+                android:paddingStart="12sp"/>
+            <TextView
+                android:id="@+id/caloriesGoalLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/goal_calories"
+                android:layout_weight="1"
+                android:textSize="24sp"
+                android:textAlignment="center"
+                android:paddingEnd="12sp"
+                />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/caloricGoalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2" >
+        <TextView
+            android:id="@+id/dailyTotalCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/zero"
+            android:textSize="32sp"
+            android:paddingStart="32sp"
+            android:paddingEnd="32sp"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/dailyCaloricGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/zero"
+            android:textSize="32sp"
+            android:paddingStart="32sp"
+            android:paddingEnd="32sp"
+            android:layout_weight="1"
+            android:textAlignment="center"/>
+    </LinearLayout>
+    </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

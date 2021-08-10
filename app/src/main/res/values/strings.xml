@@ -15,4 +15,7 @@
     <string name="starting_weight_kg">Starting Weight (Kg)</string>
     <string name="goal_weight_kg">Goal Weight (Kg)</string>
     <string name="hint_user_name">Enter User Name</string>
+    <string name="calories_today">Calories</string>
+    <string name="goal_calories">Allowance</string>
+    <string name="separator">/</string>
 </resources>
