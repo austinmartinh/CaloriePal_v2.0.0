@@ -11,7 +11,7 @@ val JSON_MEAL_FILE = "meals.json"
 val gsonBuilder = GsonBuilder().setPrettyPrinting().create()
 val listType = object : TypeToken<ArrayList<MealModel>>() {}.type
 
-class MealJSONStore(val context: Context) : Store {
+class MealJSONStore(val context: Context) : Store<MealModel> {
 
     var meals = mutableListOf<MealModel>()
 
@@ -27,7 +27,7 @@ class MealJSONStore(val context: Context) : Store {
     }
 
     override fun update(meal: MealModel) {
-        val foundMeal: MealModel? = meals.find { p -> p.id == meal.id }
+        val foundMeal = getById(meal.id)
         if (foundMeal != null) {
             foundMeal.title = meal.title
             foundMeal.caloricContent = meal.caloricContent
@@ -44,7 +44,7 @@ class MealJSONStore(val context: Context) : Store {
     }
 
     override fun delete(meal: MealModel) {
-        val foundMeal: MealModel? = meals.find { p -> p.id == meal.id }
+        val foundMeal= getById(meal.id)
         if (foundMeal != null) {
             meals.remove(foundMeal)
         }
@@ -54,12 +54,17 @@ class MealJSONStore(val context: Context) : Store {
     override fun findAll(): List<MealModel> {
         return meals
     }
-    fun serialize(){
+
+    override fun getById(id:Long): MealModel? {
+        return meals.find { p -> p.id == id }
+    }
+
+    override fun serialize(){
         val jsonString = gsonBuilder.toJson(meals, listType)
         write(context, JSON_MEAL_FILE, jsonString)
     }
 
-    fun deserialize() {
+    override fun deserialize() {
         val jsonString = read(context, JSON_MEAL_FILE)
         meals = Gson().fromJson(jsonString, listType)
     }

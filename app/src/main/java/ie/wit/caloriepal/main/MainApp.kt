@@ -2,17 +2,19 @@ package ie.wit.caloriepal.main
 
 import android.app.Application
 import ie.wit.caloriepal.models.MealJSONStore
-import ie.wit.caloriepal.models.UserModel
+import ie.wit.caloriepal.models.UserJSONStore
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
 class MainApp : Application(), AnkoLogger {
-    lateinit var meals : MealJSONStore
-    var user = UserModel()
+    lateinit var mealStore : MealJSONStore
+    lateinit var userStore : UserJSONStore
 
     override fun onCreate() {
         super.onCreate()
-        meals = MealJSONStore(applicationContext)
+        mealStore = MealJSONStore(applicationContext)
+        userStore = UserJSONStore(applicationContext)
+        info{"User details: ${userStore.user}"}
         info("CaloriePal Started")
     }
 }

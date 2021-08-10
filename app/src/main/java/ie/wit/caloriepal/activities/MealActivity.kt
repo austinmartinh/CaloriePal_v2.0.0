@@ -30,7 +30,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger{
             meal.title = mealNameField.text.toString()
             meal.caloricContent =  Integer.parseInt(caloricContentField.text.toString())
             if(mealNameField.text.isNotBlank()){
-                app.meals.createOrUpdate(meal.copy(), edit)
+                app.mealStore.createOrUpdate(meal.copy(), edit)
                 closeActivityOK()
             } else {
                 toast("Please enter the meal details!")

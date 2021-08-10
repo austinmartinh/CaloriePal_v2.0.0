@@ -12,9 +12,11 @@ import ie.wit.caloriepal.main.MainApp
 import ie.wit.caloriepal.models.MealModel
 import ie.wit.caloriepal.models.UserModel
 import kotlinx.android.synthetic.main.activity_meal_list.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivityForResult
 
-class MealListActivity() : AppCompatActivity(), MealListener {
+class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
 
     lateinit var app:MainApp
 
@@ -23,7 +25,8 @@ class MealListActivity() : AppCompatActivity(), MealListener {
         setContentView(R.layout.activity_meal_list)
         app = application as MainApp
 
-        checkForNewUser(app.user)
+        checkForNewUser()
+        info{"User Details after new user check: ${app.userStore.user}"}
 
         mealListToolbar.title = title
         setSupportActionBar(mealListToolbar)
@@ -46,11 +49,11 @@ class MealListActivity() : AppCompatActivity(), MealListener {
     }
 
     override fun onMealClick(meal: MealModel) {
-       //TODO
+       //TODO Bring up details of meal, option to delete/update
     }
 
     fun loadMeals(){
-        showMeals(app.meals.findAll())
+        showMeals(app.mealStore.findAll())
     }
 
     fun showMeals(meals:List<MealModel>) {
@@ -58,14 +61,13 @@ class MealListActivity() : AppCompatActivity(), MealListener {
         mealRecyclerView.adapter?.notifyDataSetChanged()
     }
 
-    fun checkForNewUser(user:UserModel){
-        //loadUser()
-        promptNewUser(user)
-    }
-
-    fun promptNewUser(user: UserModel){
-        if(user == UserModel()){
+    fun checkForNewUser(){
+        //if(app.userStore.users.size == 0 ){
+        if(app.userStore.user == UserModel()){
             startActivityForResult<UserActivity>(0)
+        }
+        else {
+            //TODO present user with list of users to choose from
         }
     }
 

@@ -13,11 +13,11 @@ import ie.wit.caloriepal.models.UserModel
 import kotlinx.android.synthetic.main.activity_user.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
-import org.jetbrains.anko.toast
 import java.time.LocalDate
 
 class UserActivity : AppCompatActivity(), AnkoLogger {
     lateinit var app: MainApp
+    var user = UserModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,12 +72,14 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
             Toast.makeText(this, "Your goal date should be in the future", Toast.LENGTH_SHORT).show()
             return
         }
-        app.user.name = userNameField.text.toString()
-        app.user.startWeight = startingWeight
-        app.user.goalWeight = goalWeight
-        app.user.deadline = deadline
-        app.user.deficit = calculateDeficit(app.user)
-        info { "User details are: $app.user" }
+
+        user.name = userNameField.text.toString()
+        user.startWeight = startingWeight
+        user.goalWeight = goalWeight
+        user.deadline = deadline
+        user.deficit = calculateDeficit(user)
+        info { "User details are: $user" }
+        app.userStore.createOrUpdate(user.copy(), false)
         closeActivityOK()
     }
 }
