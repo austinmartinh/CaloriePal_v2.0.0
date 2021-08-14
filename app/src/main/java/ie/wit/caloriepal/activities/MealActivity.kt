@@ -14,7 +14,7 @@ import org.jetbrains.anko.toast
 class MealActivity : AppCompatActivity(), AnkoLogger{
 
     lateinit var app : MainApp
-    var meal = MealModel()
+    var meal = MealModel(notes = "")
     var edit = false
 
     override fun onCreate(savedInstanceState : Bundle?) {
@@ -30,6 +30,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger{
             edit = true
             meal = intent.extras?.getParcelable("meal_edit")!!
             mealNameField.setText(meal.title)
+            notesField.setText(meal.notes)
             caloricContentField.setText(meal.caloricContent.toString())
             buttonAddMeal.text = getString(R.string.save_changes)
         }
@@ -37,6 +38,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger{
         buttonAddMeal.setOnClickListener {
             meal.title = mealNameField.text.toString()
             meal.caloricContent =  Integer.parseInt(caloricContentField.text.toString())
+            meal.notes = notesField.text.toString()
             if(mealNameField.text.isNotBlank()){
                 app.mealStore.createOrUpdate(meal.copy(), edit)
                 closeActivityOK()

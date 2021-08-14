@@ -66,6 +66,22 @@
                     android:textSize="14sp"
                     android:autofillHints="" />
 
+                <TextView
+                    android:id="@+id/notesLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notes"
+                    />
+
+                <EditText
+                    android:id="@+id/notesField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    android:hint="@string/notes_hint"
+                    android:inputType="textMultiLine"
+                    android:minLines="1"
+                    android:maxLines="4"/>
                 <Button
                     android:id="@+id/buttonAddMeal"
                     android:layout_width="match_parent"

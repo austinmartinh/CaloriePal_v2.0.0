@@ -31,6 +31,7 @@ class MealJSONStore(val context: Context) : Store<MealModel> {
         if (foundMeal != null) {
             foundMeal.title = meal.title
             foundMeal.caloricContent = meal.caloricContent
+            foundMeal.notes = meal.notes
         }
     }
 

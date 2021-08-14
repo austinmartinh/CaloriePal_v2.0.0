@@ -19,4 +19,6 @@
     <string name="goal_calories">Allowance</string>
     <string name="separator">/</string>
     <string name="save_changes">Save Changes</string>
+    <string name="notes">Notes</string>
+    <string name="notes_hint">Not sure what the caloric content was? Add some notes here and update the value later!</string>
 </resources>
