@@ -32,6 +32,7 @@ class MealJSONStore(val context: Context) : Store<MealModel> {
             foundMeal.title = meal.title
             foundMeal.caloricContent = meal.caloricContent
             foundMeal.notes = meal.notes
+            foundMeal.image = meal.image
         }
     }
 

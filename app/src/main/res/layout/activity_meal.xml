@@ -82,6 +82,21 @@
                     android:inputType="textMultiLine"
                     android:minLines="1"
                     android:maxLines="4"/>
+
+                <ImageView
+                    android:id="@+id/mealImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/ic_launcher"
+                    />
+
+                <Button
+                    android:id="@+id/buttonAddImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="@string/add_image"
+                    />
                 <Button
                     android:id="@+id/buttonAddMeal"
                     android:layout_width="match_parent"
