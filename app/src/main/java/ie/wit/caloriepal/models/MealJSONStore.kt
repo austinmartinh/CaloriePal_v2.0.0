@@ -51,7 +51,7 @@ class MealJSONStore(val context: Context) : Store<MealModel> {
         serialize()
     }
 
-    override fun findAll(): List<MealModel> {
+    override fun findAll(): MutableList<MealModel> {
         return meals
     }
 

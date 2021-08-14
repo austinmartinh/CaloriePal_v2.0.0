@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     android:elevation="24dp">
 
@@ -16,13 +15,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:textSize="30sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/cardCaloricContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cardMealName"/>
+            android:layout_below="@+id/cardMealName"
+            android:textSize="32sp"/>
+
+        <ImageView
+            android:id="@+id/buttonDeleteMeal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:paddingVertical="12dp"
+            android:contentDescription="Button Deletes this meal"
+            android:src="@drawable/ic_baseline_delete_48" />
     </RelativeLayout>
+
 
 </androidx.cardview.widget.CardView>

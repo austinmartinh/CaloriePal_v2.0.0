@@ -1,6 +1,5 @@
 package ie.wit.caloriepal.activities
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -36,9 +35,6 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         val layoutManager = LinearLayoutManager(this)
         mealRecyclerView.layoutManager = layoutManager
         loadMeals()
-        setTotalCalories(app.mealStore.findAll())
-        setCaloricAllowance()
-        setCaloricTotalColours()
     }
 
     override fun onResume() {
@@ -65,11 +61,15 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
     }
 
     fun loadMeals() {
-        showMeals(app.mealStore.findAll())
+        showMeals()
+        setTotalCalories(app.mealStore.findAll())
+        setCaloricAllowance()
+        setCaloricTotalColours()
     }
 
-    fun showMeals(meals: List<MealModel>) {
-        mealRecyclerView.adapter = MealAdapter(meals, this)
+    fun showMeals() {
+        mealRecyclerView.adapter = MealAdapter(app.mealStore.findAll(), this
+        ) { handleDelete() }
         mealRecyclerView.adapter?.notifyDataSetChanged()
     }
 
@@ -99,11 +99,15 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         if (dailyCalorieTotal.text.toString().toInt() < dailyCalorieGoal.text.toString().toInt()) {
             dailyCalorieTotal.setTextColor(Color.GREEN)
             dailyCalorieGoal.setTextColor(Color.GREEN)
-
         } else {
             dailyCalorieTotal.setTextColor(Color.RED)
             dailyCalorieGoal.setTextColor(Color.RED)
-
         }
+    }
+
+    fun handleDelete(){
+        setTotalCalories(app.mealStore.findAll())
+        setCaloricTotalColours()
+        app.mealStore.serialize()
     }
 }
