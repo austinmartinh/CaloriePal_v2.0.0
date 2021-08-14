@@ -18,4 +18,5 @@
     <string name="calories_today">Calories</string>
     <string name="goal_calories">Allowance</string>
     <string name="separator">/</string>
+    <string name="save_changes">Save Changes</string>
 </resources>

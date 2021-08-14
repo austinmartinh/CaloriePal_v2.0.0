@@ -15,6 +15,7 @@ import ie.wit.caloriepal.models.UserModel
 import kotlinx.android.synthetic.main.activity_meal_list.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
 
 class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
@@ -39,9 +40,7 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
 
     override fun onResume() {
         super.onResume()
-        setTotalCalories(app.mealStore.findAll())
-        setCaloricAllowance()
-        setCaloricTotalColours()
+        loadMeals()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -57,7 +56,10 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
     }
 
     override fun onMealClick(meal: MealModel) {
-        //TODO Bring up details of meal, option to delete/update
+        startActivityForResult(
+            intentFor<MealActivity>().putExtra("meal_edit", meal),
+            0
+        )
     }
 
     fun loadMeals() {
@@ -69,7 +71,7 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
 
     fun showMeals() {
         mealRecyclerView.adapter = MealAdapter(app.mealStore.findAll(), this
-        ) { handleDelete() }
+        ) { handleUpdateOrDelete() }
         mealRecyclerView.adapter?.notifyDataSetChanged()
     }
 
@@ -105,7 +107,7 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         }
     }
 
-    fun handleDelete(){
+    fun handleUpdateOrDelete(){
         setTotalCalories(app.mealStore.findAll())
         setCaloricTotalColours()
         app.mealStore.serialize()

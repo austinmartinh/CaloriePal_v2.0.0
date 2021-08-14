@@ -26,6 +26,14 @@ class MealActivity : AppCompatActivity(), AnkoLogger{
         toolbarAdd.title = title
         setSupportActionBar(toolbarAdd)
 
+        if(intent.hasExtra("meal_edit")){
+            edit = true
+            meal = intent.extras?.getParcelable("meal_edit")!!
+            mealNameField.setText(meal.title)
+            caloricContentField.setText(meal.caloricContent.toString())
+            buttonAddMeal.text = getString(R.string.save_changes)
+        }
+
         buttonAddMeal.setOnClickListener {
             meal.title = mealNameField.text.toString()
             meal.caloricContent =  Integer.parseInt(caloricContentField.text.toString())
@@ -47,6 +55,4 @@ class MealActivity : AppCompatActivity(), AnkoLogger{
         setResult(RESULT_OK)
         finish()
     }
-
-
 }

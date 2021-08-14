@@ -46,7 +46,7 @@ class MealAdapter(
         fun bind(meal:MealModel, listener: MealListener) {
             itemView.cardMealName.text = meal.title
             itemView.cardCaloricContent.text = meal.caloricContent.toString()
-
+            itemView.setOnClickListener { listener.onMealClick(meal)}
         }
     }
 }
