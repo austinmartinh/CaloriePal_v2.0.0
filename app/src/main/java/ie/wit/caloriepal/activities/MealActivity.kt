@@ -42,6 +42,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
             caloricContentField.setText(meal.caloricContent.toString())
             notesField.setText(meal.notes)
             mealImageView.setImageBitmap(readImageFromPath(this,meal.image))
+            mealImageView.adjustViewBounds=true
             buttonAddMeal.text = getString(R.string.save_changes)
         }
 
@@ -82,6 +83,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
                     meal.image = data.data.toString()
                     mealImageView.setImageBitmap(readImage(this, resultCode, data))
                     buttonAddImage.text = getString(R.string.change_image)
+                    mealImageView.adjustViewBounds=true
                 }
             }
         }
