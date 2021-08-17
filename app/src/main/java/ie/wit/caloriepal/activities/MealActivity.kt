@@ -11,19 +11,17 @@ import ie.wit.caloriepal.helpers.readImage
 import ie.wit.caloriepal.helpers.readImageFromPath
 import ie.wit.caloriepal.helpers.showImagePicker
 import ie.wit.caloriepal.main.MainApp
+import ie.wit.caloriepal.models.Location
 import ie.wit.caloriepal.models.MealModel
-
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 
 class MealActivity : AppCompatActivity(), AnkoLogger {
 
     val IMAGE_REQ = 1
+    val LOCATION_REQUEST = 2
     lateinit var app: MainApp
-    var meal = MealModel(notes = "")
+    var meal = MealModel()
     var edit = false
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +39,8 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
             mealNameField.setText(meal.title)
             caloricContentField.setText(meal.caloricContent.toString())
             notesField.setText(meal.notes)
-            mealImageView.setImageBitmap(readImageFromPath(this,meal.image))
-            mealImageView.adjustViewBounds=true
+            mealImageView.setImageBitmap(readImageFromPath(this, meal.image))
+            mealImageView.adjustViewBounds = true
             buttonAddMeal.text = getString(R.string.save_changes)
         }
 
@@ -60,6 +58,12 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
 
         buttonAddImage.setOnClickListener {
             showImagePicker(this, IMAGE_REQ)
+        }
+
+        buttonAddLocation.setOnClickListener {
+            startActivityForResult(
+                intentFor<MapActivity>().putExtra("location", meal.location.copy()), LOCATION_REQUEST
+            )
         }
     }
 
@@ -83,9 +87,14 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
                     meal.image = data.data.toString()
                     mealImageView.setImageBitmap(readImage(this, resultCode, data))
                     buttonAddImage.text = getString(R.string.change_image)
-                    mealImageView.adjustViewBounds=true
+                    mealImageView.adjustViewBounds = true
                 }
             }
+        LOCATION_REQUEST -> {
+            if(data!=null){
+            val location = data.extras?.getParcelable<Location>("location")!!
+                meal.location = location
+        } }
         }
     }
 

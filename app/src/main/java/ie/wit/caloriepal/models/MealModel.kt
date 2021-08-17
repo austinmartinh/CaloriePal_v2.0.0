@@ -17,7 +17,7 @@ data class MealModel(
 
 @Parcelize
 data class Location(
-    var lat: Double = 0.0,
-    var lng: Double = 0.0,
-    var zoom: Float = 0f
+    var lat: Double = 52.257619,
+    var lng: Double = -7.111698,
+    var zoom: Float = 15f
 ) : Parcelable

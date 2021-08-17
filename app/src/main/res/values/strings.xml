@@ -25,4 +25,6 @@
     <string name="select_meal_image">Select Meal Image</string>
     <string name="change_image">Change Image</string>
     <string name="thumbnail_image_of_meal">Thumbnail image of Meal</string>
+    <string name="set_location">Set Location</string>
+    <string name="title_activity_map">Map</string>
 </resources>
