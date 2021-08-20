@@ -17,10 +17,14 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivityForResult
+import java.time.LocalDate
 
 class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
 
     lateinit var app: MainApp
+
+    var date:LocalDate = LocalDate.now()
+    var meals= mutableListOf<MealModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +32,28 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         app = application as MainApp
 
         checkForNewUser()
-        info { "User Details after new user check: ${app.userStore.user}" }
-
         mealListToolbar.title = title
         setSupportActionBar(mealListToolbar)
+
+//        //If there are any dates already in use, use the first date as default
+//        if(app.mealStore.allMeals.size >0){
+//            date = app.mealStore.allMeals[0].date
+//        }
+        updateDateText()
+
+        buttonTomorrow.setOnClickListener{
+            info{"BUTTON TOMORROW CLICKED"}
+            date = date.plusDays(1)
+            updateDateText()
+            loadMeals()
+        }
+
+        buttonYesterday.setOnClickListener{
+            info{"BUTTON TOMORROW CLICKED"}
+            date = date.minusDays(1)
+            updateDateText()
+            loadMeals()
+        }
 
         val layoutManager = LinearLayoutManager(this)
         mealRecyclerView.layoutManager = layoutManager
@@ -50,27 +72,39 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.meal_add -> startActivityForResult<MealActivity>(0)
+            R.id.meal_add -> startActivityForResult(
+                intentFor<MealActivity>().putExtra("date", date.toString()),
+        0)
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onMealClick(meal: MealModel) {
+        val extras = Bundle()
+        extras.putString("date", date.toString())
+        extras.putParcelable("meal_edit", meal)
+
         startActivityForResult(
-            intentFor<MealActivity>().putExtra("meal_edit", meal),
+            intentFor<MealActivity>().putExtras(extras),
             0
         )
     }
 
     fun loadMeals() {
         showMeals()
-        setTotalCalories(app.mealStore.findAll())
+        setTotalCalories(meals)
         setCaloricAllowance()
         setCaloricTotalColours()
     }
 
+    // Get day from list of days if date is in use, otherwise create and add day to list of days
+    // Then, create a recycler view of the meals in that day, which may be no meals
     fun showMeals() {
-        mealRecyclerView.adapter = MealAdapter(app.mealStore.findAll(), this
+        var day = app.mealStore.getDayByDate(date)
+        if(day==null) day = app.mealStore.createDay(date)
+        meals = day.meals
+
+        mealRecyclerView.adapter = MealAdapter(meals, this
         ) { handleUpdateOrDelete() }
         mealRecyclerView.adapter?.notifyDataSetChanged()
     }
@@ -108,8 +142,13 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
     }
 
     fun handleUpdateOrDelete(){
-        setTotalCalories(app.mealStore.findAll())
+        setTotalCalories(meals)
         setCaloricTotalColours()
         app.mealStore.serialize()
+    }
+
+    fun updateDateText(){
+        val dateText = "${date.dayOfMonth} / ${date.month} / ${date.year}"
+        dateValue.text = dateText
     }
 }

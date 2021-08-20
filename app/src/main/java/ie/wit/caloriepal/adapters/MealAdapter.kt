@@ -38,8 +38,6 @@ class MealAdapter(
         }
     }
 
-
-
     override fun getItemCount(): Int {
         return meals.size
     }

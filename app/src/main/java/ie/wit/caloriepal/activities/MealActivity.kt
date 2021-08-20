@@ -14,6 +14,7 @@ import ie.wit.caloriepal.main.MainApp
 import ie.wit.caloriepal.models.Location
 import ie.wit.caloriepal.models.MealModel
 import org.jetbrains.anko.*
+import java.time.LocalDate
 
 class MealActivity : AppCompatActivity(), AnkoLogger {
 
@@ -22,6 +23,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
     lateinit var app: MainApp
     var meal = MealModel()
     var edit = false
+    var date: LocalDate = LocalDate.now()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +34,10 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
 
         toolbarAdd.title = title
         setSupportActionBar(toolbarAdd)
-
+        if (intent.hasExtra("date")) {
+            var dateAsString = intent.extras?.getString("date")!!
+            this.date = LocalDate.parse(dateAsString)
+        }
         if (intent.hasExtra("meal_edit")) {
             edit = true
             meal = intent.extras?.getParcelable("meal_edit")!!
@@ -49,7 +54,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
             meal.caloricContent = Integer.parseInt(caloricContentField.text.toString())
             meal.notes = notesField.text.toString()
             if (mealNameField.text.isNotBlank()) {
-                app.mealStore.createOrUpdate(meal.copy(), edit)
+                app.mealStore.createOrUpdate(meal.copy(), date, edit)
                 closeActivityOK()
             } else {
                 toast("Please enter the meal details!")
@@ -62,7 +67,8 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
 
         buttonAddLocation.setOnClickListener {
             startActivityForResult(
-                intentFor<MapActivity>().putExtra("location", meal.location.copy()), LOCATION_REQUEST
+                intentFor<MapActivity>().putExtra("location", meal.location.copy()),
+                LOCATION_REQUEST
             )
         }
     }
@@ -90,11 +96,12 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
                     mealImageView.adjustViewBounds = true
                 }
             }
-        LOCATION_REQUEST -> {
-            if(data!=null){
-            val location = data.extras?.getParcelable<Location>("location")!!
-                meal.location = location
-        } }
+            LOCATION_REQUEST -> {
+                if (data != null) {
+                    val location = data.extras?.getParcelable<Location>("location")!!
+                    meal.location = location
+                }
+            }
         }
     }
 

@@ -1,11 +1,11 @@
 package ie.wit.caloriepal.models
 
+import java.time.LocalDate
+
 interface Store<T> {
-    fun create(item : T)
-    fun update(item : T)
-    fun delete(item : T)
-    fun findAll(): List<T>
-    fun getById(id: Long) : T?
+    fun create(item : T, date:LocalDate)
+    fun update(item : T, date:LocalDate)
+    fun delete(item : T, date:LocalDate)
     fun serialize()
     fun deserialize()
 }

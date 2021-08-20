@@ -11,7 +11,7 @@ const val JSON_USERS_FILE = "user.json"
 val userListType = object : TypeToken<UserModel>() {}.type
 
 
-class UserJSONStore(val context: Context) : Store<UserModel>, AnkoLogger {
+class UserJSONStore(val context: Context) : AnkoLogger {
 
     var users = mutableListOf<UserModel>()
     var user = UserModel()
@@ -22,13 +22,13 @@ class UserJSONStore(val context: Context) : Store<UserModel>, AnkoLogger {
         }
     }
 
-    override fun create(user: UserModel) {
+    fun create(user: UserModel) {
         user.id = generateRandomId()
         setUserDetails(user)
         //users.add(user)
     }
 
-    override fun update(user: UserModel) {
+    fun update(user: UserModel) {
         //val foundUser = getById(user.id)
         //if (foundUser != null) {
        setUserDetails(user)
@@ -44,7 +44,7 @@ class UserJSONStore(val context: Context) : Store<UserModel>, AnkoLogger {
         serializeSingleUser()
     }
 
-    override fun delete(user: UserModel) {
+    fun delete(user: UserModel) {
 //        val foundUser = getById(user.id)
 //        if (foundUser != null) {
 //            users.remove(foundUser)
@@ -54,15 +54,15 @@ class UserJSONStore(val context: Context) : Store<UserModel>, AnkoLogger {
         serializeSingleUser()
     }
 
-    override fun findAll(): List<UserModel> {
+    fun findAll(): List<UserModel> {
         return users
     }
 
-    override fun getById(id:Long): UserModel? {
+    fun getById(id:Long): UserModel? {
         return users.find { p -> p.id == id }
     }
 
-    override fun serialize(){
+    fun serialize(){
         val jsonString = gsonBuilder.toJson(users, userListType)
         write(context, JSON_USERS_FILE, jsonString)
     }
@@ -73,7 +73,7 @@ class UserJSONStore(val context: Context) : Store<UserModel>, AnkoLogger {
         write(context, JSON_USERS_FILE, jsonString)
     }
 
-    override fun deserialize() {
+    fun deserialize() {
         val jsonString = read(context, JSON_USERS_FILE)
         users = Gson().fromJson(jsonString, userListType)
     }

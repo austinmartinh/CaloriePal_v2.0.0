@@ -27,4 +27,6 @@
     <string name="thumbnail_image_of_meal">Thumbnail image of Meal</string>
     <string name="set_location">Set Location</string>
     <string name="title_activity_map">Map</string>
+    <string name="button_deletes_this_meal">Button Deletes this meal</string>
+    <string name="date">Date: </string>
 </resources>

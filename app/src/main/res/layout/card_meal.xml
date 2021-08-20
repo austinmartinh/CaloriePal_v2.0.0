@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:paddingVertical="12dp"
-            android:contentDescription="Button Deletes this meal"
+            android:contentDescription="@string/button_deletes_this_meal"
             android:src="@drawable/ic_baseline_delete_48" />
     </RelativeLayout>
 
