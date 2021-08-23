@@ -35,10 +35,6 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         mealListToolbar.title = title
         setSupportActionBar(mealListToolbar)
 
-//        //If there are any dates already in use, use the first date as default
-//        if(app.mealStore.allMeals.size >0){
-//            date = app.mealStore.allMeals[0].date
-//        }
         updateDateText()
 
         buttonTomorrow.setOnClickListener{

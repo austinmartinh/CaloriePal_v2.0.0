@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="ButtonStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -13,6 +12,7 @@
     </style>
 
     <style name="ButtonStyle.Wide">
+        <item name="android:layout_width">match_parent</item>
         <item name="android:background">@color/secondary</item>
         <item name="android:layout_marginHorizontal">16dp</item>
         <item name="android:layout_marginVertical">8dp</item>
@@ -37,7 +37,13 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginHorizontal">8dp</item>
         <item name="android:layout_marginVertical">4dp</item>
-        <item name="elevation">16dp</item>
+        <item name="android:elevation">16dp</item>
+    </style>
+
+    <style name="ToolbarStyle">
+        <item name="titleTextColor">@color/secondary</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 
     <style name="DisplayBarStyle">
@@ -61,7 +67,7 @@
 
     <style name="TextStyle.Label">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16sp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">24sp</item>

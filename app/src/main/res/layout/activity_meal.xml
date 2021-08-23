@@ -91,29 +91,17 @@
 
                 <Button
                     android:id="@+id/buttonAddImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
                     android:text="@string/add_image"
                     style="@style/ButtonStyle.Wide.Secondary"/>
 
                 <Button
                     android:id="@+id/buttonAddLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
                     android:text="@string/set_location"
                     style="@style/ButtonStyle.Wide.Secondary"/>
 
                 <Button
                     android:id="@+id/buttonAddMeal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:text="@string/add_meal_text"
-                    android:textSize="16sp"
                     style="@style/ButtonStyle.Wide"/>
             </LinearLayout>
         </ScrollView>

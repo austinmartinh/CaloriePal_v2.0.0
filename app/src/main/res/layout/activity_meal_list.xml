@@ -17,9 +17,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/mealListToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:titleTextColor="@color/secondary" />
+            style="@style/ToolbarStyle" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
