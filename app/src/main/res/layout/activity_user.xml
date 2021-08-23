@@ -17,14 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:elevation="0dip"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            app:elevation="0dip">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbarAddUser"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:titleTextColor="#FFC107" />
+                android:layout_height="wrap_content"/>
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
@@ -49,7 +47,6 @@
                     android:maxLength="30"
                     android:maxLines="1"
                     android:padding="8dp"
-                    android:textColor="#000000"
                     android:textSize="14sp" />
 
                 <EditText
@@ -63,7 +60,6 @@
                     android:maxLength="4"
                     android:maxLines="1"
                     android:padding="8dp"
-                    android:textColor="#000000"
                     android:textSize="14sp" />
 
                 <EditText
@@ -77,7 +73,6 @@
                     android:maxLength="4"
                     android:maxLines="1"
                     android:padding="8dp"
-                    android:textColor="#000000"
                     android:textSize="14sp" />
 
                 <RelativeLayout
@@ -105,11 +100,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:background="#973C00"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="@string/set_user_details"
-                    android:textColor="#FFFFFF"
                     android:textSize="16sp" />
 
             </LinearLayout>

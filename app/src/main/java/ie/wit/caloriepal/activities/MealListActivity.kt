@@ -133,11 +133,11 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
 
     fun setCaloricTotalColours() {
         if (dailyCalorieTotal.text.toString().toInt() < dailyCalorieGoal.text.toString().toInt()) {
-            dailyCalorieTotal.setTextColor(Color.GREEN)
-            dailyCalorieGoal.setTextColor(Color.GREEN)
+            dailyCalorieTotal.setTextColor(resources.getColor(R.color.secondary))
+            dailyCalorieGoal.setTextColor(resources.getColor(R.color.secondary))
         } else {
-            dailyCalorieTotal.setTextColor(Color.RED)
-            dailyCalorieGoal.setTextColor(Color.RED)
+            dailyCalorieTotal.setTextColor(resources.getColor(R.color.red))
+            dailyCalorieGoal.setTextColor(resources.getColor(R.color.red))
         }
     }
 

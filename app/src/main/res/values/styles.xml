@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ButtonStyle.Arrow">
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:tint">@color/secondary</item>
+    </style>
+
+    <style name="ButtonStyle.Wide">
+        <item name="android:background">@color/secondary</item>
+        <item name="android:layout_marginHorizontal">16dp</item>
+        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="cornerRadius">4dp</item>
+        <item  name="android:textColor">@color/primary_dark</item>
+    </style>
+
+    <style name="ButtonStyle.Wide.Secondary">
+        <item name="android:background">@drawable/button_border</item>
+        <item name="strokeColor">@color/secondary_light</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="MainAppArea">
+        <item name="backgroundTint">@color/primary_light</item>
+    </style>
+
+    <style name="CardStyle">
+        <item name="background">@color/white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">8dp</item>
+        <item name="android:layout_marginVertical">4dp</item>
+        <item name="elevation">16dp</item>
+    </style>
+
+    <style name="DisplayBarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_border</item>
+        <item name="elevation">24dp</item>
+    </style>
+
+    <style name="DisplayBarStyle.Item" parent="DisplayBarStyle">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/primary_dark</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="TextStyle">
+        <item name="android:textColor">@color/primary_dark</item>
+    </style>
+
+    <style name="TextStyle.Label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">16sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextStyle.Value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingHorizontal">32dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/secondary</item>
+    </style>
+</resources>

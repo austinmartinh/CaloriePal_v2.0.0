@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/cancel_activity_button"
-        android:title="@string/cancel_button"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_baseline_cancel_36"
+        app:showAsAction="ifRoom"
+        app:iconTint="@color/primary_dark"
+        />
 </menu>

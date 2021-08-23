@@ -33,6 +33,7 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
         app = application as MainApp
 
         toolbarAdd.title = title
+        R.id.cancel_activity_button
         setSupportActionBar(toolbarAdd)
         if (intent.hasExtra("date")) {
             var dateAsString = intent.extras?.getString("date")!!
@@ -44,8 +45,10 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
             mealNameField.setText(meal.title)
             caloricContentField.setText(meal.caloricContent.toString())
             notesField.setText(meal.notes)
-            mealImageView.setImageBitmap(readImageFromPath(this, meal.image))
-            mealImageView.adjustViewBounds = true
+            if(meal.image.isNotBlank()) {
+                mealImageView.setImageBitmap(readImageFromPath(this, meal.image))
+                mealImageView.adjustViewBounds = true
+            }
             buttonAddMeal.text = getString(R.string.save_changes)
         }
 

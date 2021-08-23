@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:elevation="0dip"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            app:elevation="0dip">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbarAdd"
@@ -43,54 +42,52 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginEnd="8dp"
+                    android:autofillHints=""
                     android:hint="@string/meal_name_hint"
                     android:inputType="text"
                     android:maxLength="30"
                     android:maxLines="1"
                     android:padding="8dp"
                     android:textColor="#000000"
-                    android:textSize="14sp"
-                    android:autofillHints="" />
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/caloricContentField"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginEnd="8dp"
+                    android:autofillHints=""
                     android:hint="@string/caloric_content_hint"
                     android:inputType="number"
                     android:maxLength="4"
                     android:maxLines="1"
                     android:padding="8dp"
                     android:textColor="#000000"
-                    android:textSize="14sp"
-                    android:autofillHints="" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/notesLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/notes"
-                    />
+                    android:text="@string/notes" />
 
                 <EditText
                     android:id="@+id/notesField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="8dp"
                     android:hint="@string/notes_hint"
                     android:inputType="textMultiLine"
+                    android:maxLines="4"
                     android:minLines="1"
-                    android:maxLines="4"/>
+                    android:paddingHorizontal="8dp" />
 
                 <ImageView
                     android:id="@+id/mealImageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
                     android:adjustViewBounds="false"
-                    app:srcCompat="@mipmap/ic_launcher"
-                    />
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@mipmap/ic_launcher" />
 
                 <Button
                     android:id="@+id/buttonAddImage"
@@ -98,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:text="@string/add_image"
-                    />
+                    style="@style/ButtonStyle.Wide.Secondary"/>
 
                 <Button
                     android:id="@+id/buttonAddLocation"
@@ -106,20 +103,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:text="@string/set_location"
-                    />
+                    style="@style/ButtonStyle.Wide.Secondary"/>
 
                 <Button
                     android:id="@+id/buttonAddMeal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:background="#973C00"
+                    android:layout_marginHorizontal="16dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="@string/add_meal_text"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp" />
-
+                    android:textSize="16sp"
+                    style="@style/ButtonStyle.Wide"/>
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
