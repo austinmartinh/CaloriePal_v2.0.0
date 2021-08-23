@@ -31,7 +31,7 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
         Toast.makeText(this, "New User Detected, please enter your details", Toast.LENGTH_LONG).show()
 
         buttonAddUser.setOnClickListener {
-            validateUserDetails()
+            createValidUser()
         }
     }
 
@@ -42,7 +42,9 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.cancel_activity_button -> closeActivityOK()
+            R.id.cancel_activity_button -> {
+                closeActivityOK()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -52,7 +54,15 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
         finish()
     }
 
-    private fun validateUserDetails() {
+    private fun createValidUser(){
+        val user = validateUserDetails()
+        if(user!=null){
+            app.userStore.createOrUpdate(user.copy(), false)
+            closeActivityOK()
+        }
+    }
+
+    private fun validateUserDetails():UserModel? {
         var startingWeight = startingWeightField.text.toString().toFloatOrNull()
         var goalWeight = goalWeightField.text.toString().toFloatOrNull()
         var deadline = LocalDate.of(goalDatePicker.year,goalDatePicker.month + 1, goalDatePicker.dayOfMonth)
@@ -62,15 +72,15 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
 
         if (startingWeight <= 0 || goalWeight <= 0) {
             Toast.makeText(this, "Starting and goal weight must be above zero", Toast.LENGTH_SHORT).show()
-            return
+            return null
         }
         if (startingWeight <= goalWeight) {
             Toast.makeText(this, "Your goal weight should be below your current weight", Toast.LENGTH_SHORT).show()
-            return
+            return null
         }
         if (calculateDaysUntilDeadline(deadline) <= 0) {
             Toast.makeText(this, "Your goal date should be in the future", Toast.LENGTH_SHORT).show()
-            return
+            return null
         }
 
         user.name = userNameField.text.toString()
@@ -79,8 +89,7 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
         user.deadline = deadline
         user.deficit = calculateDeficit(user)
         info { "User details are: $user" }
-        app.userStore.createOrUpdate(user.copy(), false)
-        closeActivityOK()
+        return user.copy()
     }
 }
 

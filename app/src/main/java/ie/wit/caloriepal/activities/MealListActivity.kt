@@ -59,6 +59,7 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
     override fun onResume() {
         super.onResume()
         loadMeals()
+        setMenuUserIcon()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -71,6 +72,7 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
             R.id.meal_add -> startActivityForResult(
                 intentFor<MealActivity>().putExtra("date", date.toString()),
         0)
+            R.id.user_details -> handleClearUser()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -106,7 +108,6 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
     }
 
     fun checkForNewUser() {
-        //if(app.userStore.users.size == 0 ){
         if (app.userStore.user == UserModel()) {
             startActivityForResult<UserActivity>(0)
         } else {
@@ -137,14 +138,30 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         }
     }
 
+    fun updateDateText(){
+        val dateText = "${date.dayOfMonth} / ${date.month} / ${date.year}"
+        dateValue.text = dateText
+    }
+
     fun handleUpdateOrDelete(){
         setTotalCalories(meals)
         setCaloricTotalColours()
         app.mealStore.serialize()
     }
 
-    fun updateDateText(){
-        val dateText = "${date.dayOfMonth} / ${date.month} / ${date.year}"
-        dateValue.text = dateText
+    fun handleClearUser(){
+        app.mealStore.clearAllData()
+        app.userStore.deleteUser()
+        checkForNewUser()
     }
+
+    fun setMenuUserIcon(){
+        if(app.userStore.user != UserModel()){
+            info{"USER EQUAL TO DEFAULT VALUES!"}
+            mealListToolbar.menu.findItem(R.id.user_details)?.setIcon(R.drawable.ic_baseline_person_off_36)
+        }else{
+            mealListToolbar.menu.findItem(R.id.user_details)?.setIcon(R.drawable.ic_baseline_person_36)
+        }
+    }
+
 }

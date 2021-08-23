@@ -97,6 +97,11 @@ class MealJSONStore(val context: Context) : Store<MealModel>, AnkoLogger {
         val jsonString = read(context, JSON_MEAL_FILE)
         allMeals = Gson().fromJson(jsonString, listType)
     }
+
+    fun clearAllData(){
+        allMeals.clear()
+        serialize()
+    }
 }
 
 fun generateRandomId(): Long {

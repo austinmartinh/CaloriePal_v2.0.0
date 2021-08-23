@@ -96,6 +96,10 @@ class UserJSONStore(val context: Context) : AnkoLogger {
 
     }
 
+    fun deleteUser(){
+        this.user = UserModel()
+        serializeSingleUser()
+    }
 }
 
 

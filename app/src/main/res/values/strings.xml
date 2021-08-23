@@ -29,4 +29,5 @@
     <string name="title_activity_map">Map</string>
     <string name="button_deletes_this_meal">Button Deletes this meal</string>
     <string name="date">Date: </string>
+    <string name="user_details">User Details</string>
 </resources>
