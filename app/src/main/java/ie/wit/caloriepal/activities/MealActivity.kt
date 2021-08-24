@@ -28,51 +28,62 @@ class MealActivity : AppCompatActivity(), AnkoLogger {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         info { "Meal Activity Started" }
         setContentView(R.layout.activity_meal)
         app = application as MainApp
 
         toolbarAdd.title = title
-        R.id.cancel_activity_button
         setSupportActionBar(toolbarAdd)
+
         if (intent.hasExtra("date")) {
-            var dateAsString = intent.extras?.getString("date")!!
-            this.date = LocalDate.parse(dateAsString)
+            getDateIfPresent()
         }
         if (intent.hasExtra("meal_edit")) {
-            edit = true
-            meal = intent.extras?.getParcelable("meal_edit")!!
-            mealNameField.setText(meal.title)
-            caloricContentField.setText(meal.caloricContent.toString())
-            notesField.setText(meal.notes)
-            if(meal.image.isNotBlank()) {
-                mealImageView.setImageBitmap(readImageFromPath(this, meal.image))
-                mealImageView.adjustViewBounds = true
-            }
-            buttonAddMeal.text = getString(R.string.save_changes)
+            populateMealFields()
         }
 
         buttonAddMeal.setOnClickListener {
-            meal.title = mealNameField.text.toString()
-            meal.caloricContent = Integer.parseInt(caloricContentField.text.toString())
-            meal.notes = notesField.text.toString()
-            if (mealNameField.text.isNotBlank()) {
-                app.mealStore.createOrUpdate(meal.copy(), date, edit)
-                closeActivityOK()
-            } else {
-                toast("Please enter the meal details!")
-            }
+            handleAddMealClicked()
         }
-
         buttonAddImage.setOnClickListener {
             showImagePicker(this, IMAGE_REQ)
         }
-
         buttonAddLocation.setOnClickListener {
             startActivityForResult(
                 intentFor<MapActivity>().putExtra("location", meal.location.copy()),
                 LOCATION_REQUEST
             )
+        }
+    }
+
+    private fun getDateIfPresent() {
+        var dateAsString = intent.extras?.getString("date")!!
+        this.date = LocalDate.parse(dateAsString)
+    }
+
+    private fun populateMealFields() {
+        edit = true
+        meal = intent.extras?.getParcelable("meal_edit")!!
+        mealNameField.setText(meal.title)
+        caloricContentField.setText(meal.caloricContent.toString())
+        notesField.setText(meal.notes)
+        if (meal.image.isNotBlank()) {
+            mealImageView.setImageBitmap(readImageFromPath(this, meal.image))
+            mealImageView.adjustViewBounds = true
+        }
+        buttonAddMeal.text = getString(R.string.save_changes)
+    }
+
+    private fun handleAddMealClicked() {
+        meal.title = mealNameField.text.toString()
+        meal.caloricContent = Integer.parseInt(caloricContentField.text.toString())
+        meal.notes = notesField.text.toString()
+        if (mealNameField.text.isNotBlank()) {
+            app.mealStore.createOrUpdate(meal.copy(), date, edit)
+            closeActivityOK()
+        } else {
+            toast("Please enter the meal details!")
         }
     }
 

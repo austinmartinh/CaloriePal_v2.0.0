@@ -6,5 +6,5 @@
         android:icon="@drawable/ic_baseline_cancel_36"
         app:showAsAction="ifRoom"
         app:iconTint="@color/primary_dark"
-        />
+        android:title="@string/cancel_button" />
 </menu>

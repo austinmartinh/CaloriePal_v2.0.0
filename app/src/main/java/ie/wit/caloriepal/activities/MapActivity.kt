@@ -26,12 +26,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerD
         setContentView(R.layout.activity_map)
 
         location = intent.extras?.getParcelable("location")!!
-
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
     }
 
+    //prepare map listeners, create mapMarker
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMarkerClickListener(this)

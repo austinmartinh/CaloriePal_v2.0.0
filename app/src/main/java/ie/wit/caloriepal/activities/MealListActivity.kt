@@ -38,17 +38,11 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         updateDateText()
 
         buttonTomorrow.setOnClickListener{
-            info{"BUTTON TOMORROW CLICKED"}
-            date = date.plusDays(1)
-            updateDateText()
-            loadMeals()
+            handleTomorrowClicked()
         }
 
         buttonYesterday.setOnClickListener{
-            info{"BUTTON TOMORROW CLICKED"}
-            date = date.minusDays(1)
-            updateDateText()
-            loadMeals()
+            handleYesterdayClicked()
         }
 
         val layoutManager = LinearLayoutManager(this)
@@ -88,6 +82,18 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         )
     }
 
+    private fun handleTomorrowClicked() {
+        date = date.plusDays(1)
+        updateDateText()
+        loadMeals()
+    }
+
+    private fun handleYesterdayClicked() {
+        date = date.minusDays(1)
+        updateDateText()
+        loadMeals()
+    }
+
     fun loadMeals() {
         showMeals()
         setTotalCalories(meals)
@@ -96,7 +102,7 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
     }
 
     // Get day from list of days if date is in use, otherwise create and add day to list of days
-    // Then, create a recycler view of the meals in that day, which may be no meals
+    // Then, create a recycler view of the meals in that day
     fun showMeals() {
         var day = app.mealStore.getDayByDate(date)
         if(day==null) day = app.mealStore.createDay(date)
@@ -110,8 +116,6 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
     fun checkForNewUser() {
         if (app.userStore.user == UserModel()) {
             startActivityForResult<UserActivity>(0)
-        } else {
-            //TODO present user with list of users to choose from
         }
     }
 
@@ -128,6 +132,7 @@ class MealListActivity() : AppCompatActivity(), MealListener, AnkoLogger {
         dailyCalorieTotal.text = totalCalories.toString()
     }
 
+    //Changes Caloric Values textColor to red if daily caloric limit exceeded, otherwise uses brand secondary color
     fun setCaloricTotalColours() {
         if (dailyCalorieTotal.text.toString().toInt() < dailyCalorieGoal.text.toString().toInt()) {
             dailyCalorieTotal.setTextColor(resources.getColor(R.color.secondary))
