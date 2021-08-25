@@ -30,4 +30,11 @@
     <string name="button_deletes_this_meal">Button Deletes this meal</string>
     <string name="date">Date: </string>
     <string name="user_details">User Details</string>
+    <string name="open_nav_drawer">Open Navigation Drawer</string>
+    <string name="close_nav_drawer">Close Navigation Drawer</string>
+    <string name="app_logo">App Logo</string>
+    <string name="about">About</string>
+    <string name="meals">Meals</string>
+    <string name="user">User</string>
+    <string name="more">More</string>
 </resources>
