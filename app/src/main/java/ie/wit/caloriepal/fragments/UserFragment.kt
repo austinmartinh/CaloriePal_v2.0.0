@@ -1,64 +1,52 @@
-package ie.wit.caloriepal.activities
+package ie.wit.caloriepal.fragments
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import ie.wit.caloriepal.R
 import ie.wit.caloriepal.helpers.calculateDaysUntilDeadline
 import ie.wit.caloriepal.helpers.calculateDeficit
 import ie.wit.caloriepal.main.MainApp
 import ie.wit.caloriepal.models.UserModel
-import kotlinx.android.synthetic.main.activity_user.*
+import kotlinx.android.synthetic.main.fragment_user.*
+import kotlinx.android.synthetic.main.fragment_user.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import java.time.LocalDate
 
-class UserActivity : AppCompatActivity(), AnkoLogger {
+
+class UserFragment : Fragment(), AnkoLogger {
     lateinit var app: MainApp
     var user = UserModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        info { "User goal Activity started" }
-        setContentView(R.layout.activity_user)
-        app = application as MainApp
+        app = activity?.application as MainApp
+    }
 
-        toolbarAddUser.title = title
-        setSupportActionBar(toolbarAddUser)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
 
-        Toast.makeText(this, "New User Detected, please enter your details", Toast.LENGTH_LONG).show()
+        var root = inflater.inflate(R.layout.fragment_user, container, false)
 
-        buttonAddUser.setOnClickListener {
+        root.buttonAddUser.setOnClickListener {
             createValidUser()
         }
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.add_in_progress_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.cancel_activity_button -> {
-                closeActivityOK()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun closeActivityOK() {
-        setResult(RESULT_OK)
-        finish()
+        return root
     }
 
     private fun createValidUser(){
         val user = validateUserDetails()
         if(user!=null){
             app.userStore.createOrUpdate(user.copy(), false)
-            closeActivityOK()
+            //closeActivityOK()
         }
     }
 
@@ -71,15 +59,15 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
         if(goalWeight== null) goalWeight = 0f
 
         if (startingWeight <= 0 || goalWeight <= 0) {
-            Toast.makeText(this, "Starting and goal weight must be above zero", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Starting and goal weight must be above zero", Toast.LENGTH_SHORT).show()
             return null
         }
         if (startingWeight <= goalWeight) {
-            Toast.makeText(this, "Your goal weight should be below your current weight", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Your goal weight should be below your current weight", Toast.LENGTH_SHORT).show()
             return null
         }
         if (calculateDaysUntilDeadline(deadline) <= 0) {
-            Toast.makeText(this, "Your goal date should be in the future", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "Your goal date should be in the future", Toast.LENGTH_SHORT).show()
             return null
         }
 
@@ -91,5 +79,18 @@ class UserActivity : AppCompatActivity(), AnkoLogger {
         info { "User details are: $user" }
         return user.copy()
     }
-}
 
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment UserFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance() = UserFragment().apply {}
+    }
+}

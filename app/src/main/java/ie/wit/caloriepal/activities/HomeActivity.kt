@@ -12,6 +12,7 @@ import com.google.android.material.navigation.NavigationView
 import ie.wit.caloriepal.R
 import ie.wit.caloriepal.fragments.MealAddFragment
 import ie.wit.caloriepal.fragments.MealListFragment
+import ie.wit.caloriepal.fragments.UserFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import org.jetbrains.anko.toast
@@ -48,7 +49,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_mealList -> navigateTo(MealListFragment.newInstance())
-            R.id.nav_user_details -> navigateTo(MealAddFragment.newInstance())
+            R.id.nav_user_details -> navigateTo(UserFragment.newInstance())
+            R.id.nav_about -> navigateTo(MealAddFragment.newInstance())
             else -> toast("You Selected Something Else")
         }
         drawerLayout.closeDrawer(GravityCompat.START)

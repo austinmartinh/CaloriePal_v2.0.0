@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MealActivity">
+    tools:context=".fragments.UserFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,22 +12,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:elevation="0dip">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarAddUser"
-                style="@style/ToolbarStyle"/>
-        </com.google.android.material.appbar.AppBarLayout>
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/appBarLayout"
             android:fillViewport="true">
 
             <LinearLayout
@@ -100,5 +87,4 @@
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
