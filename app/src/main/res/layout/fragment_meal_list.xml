@@ -5,7 +5,7 @@
     android:id="@+id/mealListConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ie.wit.caloriepal.activities.MealListActivity">
+    tools:context="ie.wit.caloriepal.fragments.MealListFragment">
 
 
     <LinearLayout

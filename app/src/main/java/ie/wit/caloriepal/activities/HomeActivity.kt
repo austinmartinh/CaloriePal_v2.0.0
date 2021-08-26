@@ -6,10 +6,12 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import ie.wit.caloriepal.R
 import ie.wit.caloriepal.fragments.MealAddFragment
+import ie.wit.caloriepal.fragments.MealListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import org.jetbrains.anko.toast
@@ -45,9 +47,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_mealList -> toast("You Selected Meals")
-            R.id.nav_user_details -> toast("You Selected User")
-
+            R.id.nav_mealList -> navigateTo(MealListFragment.newInstance())
+            R.id.nav_user_details -> navigateTo(MealAddFragment.newInstance())
             else -> toast("You Selected Something Else")
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -64,4 +65,12 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawerLayout.closeDrawer(GravityCompat.START)
         super.onBackPressed()
     }
+
+    private fun navigateTo(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.homeFrame, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 }

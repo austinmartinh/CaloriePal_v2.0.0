@@ -38,11 +38,6 @@
         <activity
             android:name=".activities.MapActivity"
             android:label="@string/title_activity_map" />
-        <activity android:name=".activities.MealActivity" />
         <activity android:name=".activities.UserActivity" />
-        <activity android:name=".activities.MealListActivity">
-
-        </activity>
     </application>
-
 </manifest>

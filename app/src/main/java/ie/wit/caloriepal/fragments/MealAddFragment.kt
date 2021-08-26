@@ -3,14 +3,12 @@ package ie.wit.caloriepal.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ie.wit.caloriepal.R
-
 import ie.wit.caloriepal.main.MainApp
 import ie.wit.caloriepal.models.Location
 import ie.wit.caloriepal.models.MealModel
-import kotlinx.android.synthetic.main.activity_meal.*
+import kotlinx.android.synthetic.main.fragment_meal_add.*
 import kotlinx.android.synthetic.main.fragment_meal_add.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
@@ -80,8 +78,8 @@ class MealAddFragment : Fragment(), AnkoLogger {
     private fun populateMealFields() {
         edit = true
 //        meal = intent.extras?.getParcelable("meal_edit")!!
-        mealNameField.setText(meal.title)
-        caloricContentField.setText(meal.caloricContent.toString())
+        view?.mealNameField?.setText(meal.title)
+        view?.caloricContentField?.setText(meal.caloricContent.toString())
         notesField.setText(meal.notes)
 //        if (meal.image.isNotBlank()) {
 //            mealImageView.setImageBitmap(readImageFromPath(this, meal.image))
@@ -118,8 +116,8 @@ class MealAddFragment : Fragment(), AnkoLogger {
                 if (data != null) {
                     meal.image = data.data.toString()
 //                    mealImageView.setImageBitmap(readImage(this, resultCode, data))
-                    buttonAddImage.text = getString(R.string.change_image)
-                    mealImageView.adjustViewBounds = true
+//                    buttonAddImage.text = getString(R.string.change_image)
+//                    mealImageView.adjustViewBounds = true
                 }
             }
             LOCATION_REQUEST -> {
