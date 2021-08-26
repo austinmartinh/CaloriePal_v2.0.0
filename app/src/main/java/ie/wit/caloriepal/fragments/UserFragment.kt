@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import ie.wit.caloriepal.R
 import ie.wit.caloriepal.helpers.calculateDaysUntilDeadline
 import ie.wit.caloriepal.helpers.calculateDeficit
@@ -16,9 +17,9 @@ import kotlinx.android.synthetic.main.fragment_user.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import java.time.LocalDate
+import androidx.fragment.app.setFragmentResult
 
-
-class UserFragment : Fragment(), AnkoLogger {
+class UserFragment() : Fragment(), AnkoLogger {
     lateinit var app: MainApp
     var user = UserModel()
 
@@ -32,21 +33,19 @@ class UserFragment : Fragment(), AnkoLogger {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         var root = inflater.inflate(R.layout.fragment_user, container, false)
 
         root.buttonAddUser.setOnClickListener {
-            createValidUser()
+            createValidUser(root)
         }
-
         return root
     }
 
-    private fun createValidUser(){
+    private fun createValidUser(root:View){
         val user = validateUserDetails()
         if(user!=null){
             app.userStore.createOrUpdate(user.copy(), false)
-            //closeActivityOK()
+            triggerNavigate()
         }
     }
 
@@ -79,17 +78,11 @@ class UserFragment : Fragment(), AnkoLogger {
         info { "User details are: $user" }
         return user.copy()
     }
+    private fun triggerNavigate(){
+        setFragmentResult("requestKey", bundleOf("bundleKey" to true))
+    }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment UserFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() = UserFragment().apply {}
     }
