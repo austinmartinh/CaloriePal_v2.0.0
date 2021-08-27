@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.android.material.navigation.NavigationView
 import ie.wit.caloriepal.R
 import ie.wit.caloriepal.fragments.MealAddFragment
@@ -18,9 +17,12 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import org.jetbrains.anko.toast
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, AddUserListener {
+class HomeActivity : AppCompatActivity(),
+    NavigationView.OnNavigationItemSelectedListener,
+    ReturnToMealListListener,
+    MealClickedInFragmentListener {
 
-    lateinit var ft : FragmentTransaction
+    lateinit var ft: FragmentTransaction
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +40,20 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        supportFragmentManager.setFragmentResultListener("requestKey", this) { _, bundle ->
-            if(bundle.getBoolean("bundleKey")) navigateTo(MealListFragment.newInstance())
+        supportFragmentManager.setFragmentResultListener("listMealsRequest", this) { _, bundle ->
+            val mealListFragment = MealListFragment.newInstance()
+            mealListFragment.arguments = bundle
+            navigateTo(mealListFragment)
+        }
+        supportFragmentManager.setFragmentResultListener("addMealRequest", this) { _, bundle ->
+            val populatedAddFragment = MealAddFragment.newInstance()
+            populatedAddFragment.arguments = bundle
+            navigateTo(populatedAddFragment)
         }
 
 
         ft = supportFragmentManager.beginTransaction()
-        val fragment = MealAddFragment.newInstance()
+        val fragment = MealListFragment.newInstance()
         ft.replace(R.id.homeFrame, fragment)
         ft.commit()
     }
@@ -66,7 +75,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawer(GravityCompat.START)
         super.onBackPressed()
     }
@@ -78,13 +87,21 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .commit()
     }
 
-    override fun triggerNavigateFromFragment(actionComplete: Boolean) {
+    override fun addUserFragmentCompleted(actionComplete: Boolean) {
+        if (actionComplete) navigateTo(MealListFragment.newInstance())
+    }
+
+    override fun mealClickedOnInFragment() {
         navigateTo(MealListFragment.newInstance())
     }
 
 
 }
 
-interface AddUserListener{
-    fun triggerNavigateFromFragment(actionComplete: Boolean)
+interface ReturnToMealListListener {
+    fun addUserFragmentCompleted(actionComplete: Boolean)
+}
+
+interface MealClickedInFragmentListener {
+    fun mealClickedOnInFragment()
 }

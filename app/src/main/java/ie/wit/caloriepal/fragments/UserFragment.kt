@@ -36,12 +36,12 @@ class UserFragment() : Fragment(), AnkoLogger {
         var root = inflater.inflate(R.layout.fragment_user, container, false)
 
         root.buttonAddUser.setOnClickListener {
-            createValidUser(root)
+            createValidUser()
         }
         return root
     }
 
-    private fun createValidUser(root:View){
+    private fun createValidUser(){
         val user = validateUserDetails()
         if(user!=null){
             app.userStore.createOrUpdate(user.copy(), false)

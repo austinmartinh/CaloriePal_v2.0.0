@@ -3,12 +3,14 @@ package ie.wit.caloriepal.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import ie.wit.caloriepal.R
 import ie.wit.caloriepal.main.MainApp
+import ie.wit.caloriepal.models.JSON_MEAL_FILE
 import ie.wit.caloriepal.models.Location
 import ie.wit.caloriepal.models.MealModel
-import kotlinx.android.synthetic.main.fragment_meal_add.*
 import kotlinx.android.synthetic.main.fragment_meal_add.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
@@ -20,6 +22,7 @@ class MealAddFragment : Fragment(), AnkoLogger {
     val IMAGE_REQ = 1
     val LOCATION_REQUEST = 2
     lateinit var app: MainApp
+    lateinit var root: View
     var meal = MealModel()
     var edit = false
     var date: LocalDate = LocalDate.now()
@@ -29,37 +32,36 @@ class MealAddFragment : Fragment(), AnkoLogger {
         info { "Meal Activity Started" }
 
         app = activity?.application as MainApp
-
-//        if (intent.hasExtra("date")) {
-//            getDateIfPresent()
-//        }
-//        if (intent.hasExtra("meal_edit")) {
-//            populateMealFields()
-//        }
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) : View? {
+    ): View {
 
-        val root = inflater.inflate(R.layout.fragment_meal_add, container, false)
+        root = inflater.inflate(R.layout.fragment_meal_add, container, false)
         activity?.title = "Add Meal"
 
+        processArguments()
+
         root.buttonAddMeal.setOnClickListener {
-            handleAddMealClicked(root)
+            handleAddMealClicked()
         }
 //        buttonAddImage.setOnClickListener {
 //            showImagePicker(this, IMAGE_REQ)
 //        }
-//        buttonAddLocation.setOnClickListener {
+//        root.buttonAddLocation.setOnClickListener {
 //            startActivityForResult(
 //                intentFor<MapActivity>().putExtra("location", meal.location.copy()),
 //                LOCATION_REQUEST
 //            )
 //        }
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        processArguments()
     }
 
     companion object {
@@ -70,33 +72,28 @@ class MealAddFragment : Fragment(), AnkoLogger {
             }
     }
 
-    private fun getDateIfPresent() {
-//        var dateAsString = intent.extras?.getString("date")!!
-//        this.date = LocalDate.parse(dateAsString)
-    }
-
     private fun populateMealFields() {
         edit = true
-//        meal = intent.extras?.getParcelable("meal_edit")!!
-        view?.mealNameField?.setText(meal.title)
-        view?.caloricContentField?.setText(meal.caloricContent.toString())
-        notesField.setText(meal.notes)
-//        if (meal.image.isNotBlank()) {
-//            mealImageView.setImageBitmap(readImageFromPath(this, meal.image))
-//            mealImageView.adjustViewBounds = true
-//        }
-        buttonAddMeal.text = getString(R.string.save_changes)
+        root.mealNameField.setText(meal.title)
+        root.caloricContentField.setText(meal.caloricContent.toString())
+        root.notesField.setText(meal.notes)
+//          if (meal.image.isNotBlank()) {
+//            root.mealImageView.setImageBitmap(readImageFromPath(this, meal.image))
+//            root.mealImageView.adjustViewBounds = true
+//            }
+        root.buttonAddMeal.text = getString(R.string.save_changes)
+
     }
 
-    private fun handleAddMealClicked(layout:View) {
-        meal.title = layout.mealNameField.text.toString()
-        if(layout.caloricContentField.text.isNotBlank()) {
-            meal.caloricContent = Integer.parseInt(layout.caloricContentField.text.toString())
+    private fun handleAddMealClicked() {
+        meal.title = root.mealNameField.text.toString()
+        if (root.caloricContentField.text.isNotBlank()) {
+            meal.caloricContent = Integer.parseInt(root.caloricContentField.text.toString())
         }
-        meal.notes = layout.notesField.text.toString()
-        if (layout.mealNameField.text.isNotBlank()) {
+        meal.notes = root.notesField.text.toString()
+        if (root.mealNameField.text.isNotBlank()) {
             app.mealStore.createOrUpdate(meal.copy(), date, edit)
-//            closeActivityOK()
+            triggerNavigate()
         } else {
             activity?.toast("Please enter the meal details!")
         }
@@ -127,5 +124,27 @@ class MealAddFragment : Fragment(), AnkoLogger {
                 }
             }
         }
+    }
+
+    private fun processArguments() {
+        if (arguments != null) {
+            val extras = requireArguments().getBundle("extras")
+            val dateAsString = extras?.getString("date")
+            if (dateAsString != null) this.date = LocalDate.parse(dateAsString)
+
+            val mealToEdit = extras?.getParcelable<MealModel>("meal_edit")
+            if (mealToEdit != null) {
+                this.meal = mealToEdit
+                populateMealFields()
+            }
+
+        }
+    }
+
+    private fun triggerNavigate() {
+        val extras = Bundle()
+        extras.putString("date", date.toString())
+        extras.putBoolean("complete", true)
+        setFragmentResult("listMealsRequest", bundleOf("extras" to extras))
     }
 }

@@ -53,6 +53,15 @@
         app:layout_constraintTop_toBottomOf="@id/datebar"
         app:layout_constraintVertical_bias="0.0" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        app:layout_constraintBottom_toBottomOf="@id/mealRecyclerView"
+        app:layout_constraintEnd_toEndOf="@id/mealRecyclerView"
+        app:srcCompat="@drawable/ic_baseline_add_36"
+        app:tint="@color/primary"
+        app:backgroundTint="@color/secondary"
+        style="@style/FabStyle"
+        />
 
     <LinearLayout
         android:id="@+id/caloricGoalHeaders"
@@ -89,15 +98,15 @@
 
             <TextView
                 android:id="@+id/dailyCalorieTotal"
+                style="@style/TextStyle.Value"
                 android:layout_weight="1"
-                android:text="@string/zero"
-                style="@style/TextStyle.Value"/>
+                android:text="@string/zero" />
 
             <TextView
                 android:id="@+id/dailyCalorieGoal"
+                style="@style/TextStyle.Value"
                 android:layout_weight="1"
-                android:text="@string/zero"
-                style="@style/TextStyle.Value"/>
+                android:text="@string/zero" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
