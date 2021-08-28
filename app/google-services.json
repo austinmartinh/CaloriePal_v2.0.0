@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "51162107418",
+    "project_id": "caloriepal",
+    "storage_bucket": "caloriepal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51162107418:android:63b6aca4952bc875e90ba3",
+        "android_client_info": {
+          "package_name": "ie.wit.caloriepal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "51162107418-rjjm0p9ic826lagm5ikt37lkh7unrb90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB7K92pPk7bWYGVl3S1AZ8PecinHxokgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "51162107418-rjjm0p9ic826lagm5ikt37lkh7unrb90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
