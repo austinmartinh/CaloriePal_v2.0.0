@@ -13,6 +13,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import ie.wit.caloriepal.R
+import ie.wit.caloriepal.activities.MapActivity
 import ie.wit.caloriepal.helpers.createImagePickerIntent
 import ie.wit.caloriepal.helpers.readImage
 import ie.wit.caloriepal.helpers.readImageFromPath
@@ -22,6 +23,7 @@ import ie.wit.caloriepal.models.MealModel
 import kotlinx.android.synthetic.main.fragment_meal_add.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import java.io.IOException
 import java.lang.Exception
@@ -54,39 +56,13 @@ class MealAddFragment : Fragment(), AnkoLogger {
 
         processArguments()
 
-        root.buttonAddMeal.setOnClickListener {
-            handleAddMealClicked()
-        }
-        root.buttonAddImage.setOnClickListener {
-            startActivityForResult(createImagePickerIntent(), IMAGE_REQ)
-        }
-//        root.buttonAddLocation.setOnClickListener {
-//            startActivityForResult(
-//                intentFor<MapActivity>().putExtra("location", meal.location.copy()),
-//                LOCATION_REQUEST
-//            )
-//        }
+        setButtonOnClickListeners()
         return root
     }
 
     override fun onResume() {
         super.onResume()
         processArguments()
-    }
-
-    private fun populateMealFields() {
-        edit = true
-        root.mealNameField.setText(meal.title)
-        root.caloricContentField.setText(meal.caloricContent.toString())
-        root.notesField.setText(meal.notes)
-        if (meal.image.isNotBlank()) {
-            root.mealImageView.setImageBitmap(readImageFromPath(requireContext(), meal.image))
-            root.mealImageView.adjustViewBounds = true
-            root.buttonAddImage.text = getString(R.string.change_image)
-
-        }
-        root.buttonAddMeal.text = getString(R.string.save_changes)
-
     }
 
     private fun handleAddMealClicked() {
@@ -101,13 +77,6 @@ class MealAddFragment : Fragment(), AnkoLogger {
         } else {
             activity?.toast("Please enter the meal details!")
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-//            R.id.cancel_activity_button -> closeActivityOK()
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -148,6 +117,34 @@ class MealAddFragment : Fragment(), AnkoLogger {
                 populateMealFields()
             }
 
+        }
+    }
+
+    private fun populateMealFields() {
+        edit = true
+        root.mealNameField.setText(meal.title)
+        root.caloricContentField.setText(meal.caloricContent.toString())
+        root.notesField.setText(meal.notes)
+        if (meal.image.isNotBlank()) {
+            root.mealImageView.setImageBitmap(readImageFromPath(requireContext(), meal.image))
+            root.mealImageView.adjustViewBounds = true
+            root.buttonAddImage.text = getString(R.string.change_image)
+        }
+        root.buttonAddMeal.text = getString(R.string.save_changes)
+    }
+
+    private fun setButtonOnClickListeners() {
+        root.buttonAddMeal.setOnClickListener {
+            handleAddMealClicked()
+        }
+        root.buttonAddImage.setOnClickListener {
+            startActivityForResult(createImagePickerIntent(), IMAGE_REQ)
+        }
+        root.buttonAddLocation.setOnClickListener {
+            startActivityForResult(
+                requireContext().intentFor<MapActivity>()
+                    .putExtra("location", meal.location.copy()), LOCATION_REQUEST
+            )
         }
     }
 
