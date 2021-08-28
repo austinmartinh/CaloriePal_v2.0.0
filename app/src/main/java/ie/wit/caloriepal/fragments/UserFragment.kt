@@ -26,6 +26,7 @@ class UserFragment() : Fragment(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = activity?.application as MainApp
+
     }
 
     override fun onCreateView(
@@ -33,7 +34,8 @@ class UserFragment() : Fragment(), AnkoLogger {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var root = inflater.inflate(R.layout.fragment_user, container, false)
+        val root = inflater.inflate(R.layout.fragment_user, container, false)
+        activity?.title = "User Details"
 
         root.buttonAddUser.setOnClickListener {
             createValidUser()
@@ -79,7 +81,9 @@ class UserFragment() : Fragment(), AnkoLogger {
         return user.copy()
     }
     private fun triggerNavigate(){
-        setFragmentResult("requestKey", bundleOf("bundleKey" to true))
+        val extras = Bundle()
+        extras.putBoolean("complete",true)
+        setFragmentResult("listMealsRequest", bundleOf("extras" to extras))
     }
 
     companion object {
