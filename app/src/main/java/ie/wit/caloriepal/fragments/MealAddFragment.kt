@@ -1,20 +1,30 @@
 package ie.wit.caloriepal.fragments
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import ie.wit.caloriepal.R
+import ie.wit.caloriepal.helpers.createImagePickerIntent
+import ie.wit.caloriepal.helpers.readImage
+import ie.wit.caloriepal.helpers.readImageFromPath
 import ie.wit.caloriepal.main.MainApp
-import ie.wit.caloriepal.models.JSON_MEAL_FILE
 import ie.wit.caloriepal.models.Location
 import ie.wit.caloriepal.models.MealModel
 import kotlinx.android.synthetic.main.fragment_meal_add.view.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
+import java.io.IOException
+import java.lang.Exception
 import java.time.LocalDate
 
 class MealAddFragment : Fragment(), AnkoLogger {
@@ -47,9 +57,9 @@ class MealAddFragment : Fragment(), AnkoLogger {
         root.buttonAddMeal.setOnClickListener {
             handleAddMealClicked()
         }
-//        buttonAddImage.setOnClickListener {
-//            showImagePicker(this, IMAGE_REQ)
-//        }
+        root.buttonAddImage.setOnClickListener {
+            startActivityForResult(createImagePickerIntent(), IMAGE_REQ)
+        }
 //        root.buttonAddLocation.setOnClickListener {
 //            startActivityForResult(
 //                intentFor<MapActivity>().putExtra("location", meal.location.copy()),
@@ -64,23 +74,17 @@ class MealAddFragment : Fragment(), AnkoLogger {
         processArguments()
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            MealAddFragment().apply {
-                arguments = Bundle().apply {}
-            }
-    }
-
     private fun populateMealFields() {
         edit = true
         root.mealNameField.setText(meal.title)
         root.caloricContentField.setText(meal.caloricContent.toString())
         root.notesField.setText(meal.notes)
-//          if (meal.image.isNotBlank()) {
-//            root.mealImageView.setImageBitmap(readImageFromPath(this, meal.image))
-//            root.mealImageView.adjustViewBounds = true
-//            }
+        if (meal.image.isNotBlank()) {
+            root.mealImageView.setImageBitmap(readImageFromPath(requireContext(), meal.image))
+            root.mealImageView.adjustViewBounds = true
+            root.buttonAddImage.text = getString(R.string.change_image)
+
+        }
         root.buttonAddMeal.text = getString(R.string.save_changes)
 
     }
@@ -112,9 +116,15 @@ class MealAddFragment : Fragment(), AnkoLogger {
             IMAGE_REQ -> {
                 if (data != null) {
                     meal.image = data.data.toString()
-//                    mealImageView.setImageBitmap(readImage(this, resultCode, data))
-//                    buttonAddImage.text = getString(R.string.change_image)
-//                    mealImageView.adjustViewBounds = true
+                    root.mealImageView.setImageBitmap(
+                        readImage(
+                            requireActivity(),
+                            resultCode,
+                            data
+                        )
+                    )
+                    root.buttonAddImage.text = getString(R.string.change_image)
+                    root.mealImageView.adjustViewBounds = true
                 }
             }
             LOCATION_REQUEST -> {
@@ -147,4 +157,13 @@ class MealAddFragment : Fragment(), AnkoLogger {
         extras.putBoolean("complete", true)
         setFragmentResult("listMealsRequest", bundleOf("extras" to extras))
     }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+            MealAddFragment().apply {
+                arguments = Bundle().apply {}
+            }
+    }
+
 }

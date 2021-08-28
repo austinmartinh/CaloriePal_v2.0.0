@@ -7,17 +7,19 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
+import androidx.fragment.app.FragmentActivity
 import ie.wit.caloriepal.R
 import java.io.IOException
 import java.lang.Exception
 
-fun showImagePicker(parent:Activity, id:Int) {
+fun createImagePickerIntent() :Intent {
     val intent = Intent()
     intent.type = "image/*"
     intent.action = Intent.ACTION_OPEN_DOCUMENT
     intent.addCategory(Intent.CATEGORY_OPENABLE)
     val chooser = Intent.createChooser(intent, R.string.select_meal_image.toString())
-    parent.startActivityForResult(chooser, id)
+    return chooser
+
 }
 
 fun readImage(activity: Activity, resultCode: Int, data: Intent?): Bitmap? {
@@ -46,6 +48,5 @@ fun readImageFromPath(context: Context, path: String): Bitmap? {
             e.printStackTrace()
         }
     }
-
     return bitmap
 }
