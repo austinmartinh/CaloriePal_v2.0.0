@@ -16,6 +16,7 @@ import ie.wit.caloriepal.fragments.UserFragment
 import ie.wit.caloriepal.main.MainApp
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class HomeActivity : AppCompatActivity(),
@@ -67,7 +68,7 @@ class HomeActivity : AppCompatActivity(),
         when (item.itemId) {
             R.id.nav_mealList -> navigateTo(MealListFragment.newInstance())
             R.id.nav_user_details -> navigateTo(UserFragment.newInstance())
-            R.id.nav_about -> navigateTo(MealAddFragment.newInstance())
+            R.id.nav_sign_out -> handleSignOut()
             else -> toast("You Selected Something Else")
         }
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -80,16 +81,22 @@ class HomeActivity : AppCompatActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.clear_all_data -> handleClearUser()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    fun handleClearUser(){
+    fun handleClearUser() {
         app.mealStore.clearAllData()
         app.userStore.deleteUser()
         navigateTo(UserFragment.newInstance())
+    }
+
+    fun handleSignOut() {
+        app.auth.signOut()
+        startActivity<LoginActivity>()
+        finish()
     }
 
     override fun onBackPressed() {
@@ -104,7 +111,6 @@ class HomeActivity : AppCompatActivity(),
             .addToBackStack(null)
             .commit()
     }
-
 
 
     override fun addUserFragmentCompleted(actionComplete: Boolean) {

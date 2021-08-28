@@ -13,6 +13,7 @@ import ie.wit.caloriepal.R
 import ie.wit.caloriepal.helpers.createLoader
 import ie.wit.caloriepal.helpers.hideLoader
 import ie.wit.caloriepal.helpers.showLoader
+import ie.wit.caloriepal.main.MainApp
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.startActivity
 
@@ -20,12 +21,13 @@ import org.jetbrains.anko.startActivity
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
 
-    private lateinit var auth: FirebaseAuth
     lateinit var loader: AlertDialog
+    lateinit var app: MainApp
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        app = application as MainApp
 
         // Buttons
         emailSignInButton.setOnClickListener(this)
@@ -34,13 +36,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         verifyEmailButton.setOnClickListener(this)
 
 
-        auth = FirebaseAuth.getInstance()
+        app.auth = FirebaseAuth.getInstance()
         loader = createLoader(this)
     }
 
     public override fun onStart() {
         super.onStart()
-        val currentUser = auth.currentUser
+        val currentUser = app.auth.currentUser
         updateUI(currentUser)
     }
 
@@ -53,12 +55,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         showLoader(loader, "Creating Account...")
 
         // [START create_user_with_email]
-        auth.createUserWithEmailAndPassword(email, password)
+        app.auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
+                    val user = app.auth.currentUser
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
@@ -83,12 +85,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         showLoader(loader, "Logging In...")
 
         // [START sign_in_with_email]
-        auth.signInWithEmailAndPassword(email, password)
+        app.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
+                    val user = app.auth.currentUser
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
@@ -110,7 +112,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun signOut() {
-        auth.signOut()
+        app.auth.signOut()
         updateUI(null)
     }
 
@@ -120,7 +122,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         // Send verification email
         // [START send_email_verification]
-        val user = auth.currentUser
+        val user = app.auth.currentUser
         user?.sendEmailVerification()
             ?.addOnCompleteListener(this) { task ->
                 // [START_EXCLUDE]
